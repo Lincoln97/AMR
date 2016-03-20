@@ -9,8 +9,8 @@
 float v, w;
 
 void S_calc(std_msgs::Float64 &vr, std_msgs::Float64 &vl,double v, double w){
-    vr.data = v - ((b/2)*w);
-    vl.data = v + ((b/2)*w);
+    vl.data = v - ((b/2)*w);
+    vr.data = v + ((b/2)*w);
 }
 
 void callback(const geometry_msgs::TwistConstPtr &msg){
@@ -22,14 +22,16 @@ int main(int argc, char **argv){
     
     std_msgs::Float64 vr, vl;
     
-    ros::init(argc,argv,"control");
+    ros::init(argc,argv,"controla");
     
-    ros::NodeHandle control;
+    ros::NodeHandle controla;
     
-    ros::Subscriber v_sub = control.subscribe("Velocity", 1, callback);
+    ros::Subscriber v_sub = controla.subscribe("Velocity", 1, callback);
+    //ros::Subscriber v_sub = control2.subscribe("left_sonar", 1, callback);
+    //ros::Subscriber v_sub = control2.subscribe("right_sonar", 1, callback);
     
-    ros::Publisher pubR = control.advertise<std_msgs::Float64>("/vrep/vehicle/motorRightSpeed", 1);
-    ros::Publisher pubL = control.advertise<std_msgs::Float64>("/vrep/vehicle/motorLeftSpeed", 1);
+    ros::Publisher pubR = controla.advertise<std_msgs::Float64>("/vrep/vehicle/motorRightSpeed", 1);
+    ros::Publisher pubL = controla.advertise<std_msgs::Float64>("/vrep/vehicle/motorLeftSpeed", 1);
     
     ros::Rate loop_rate(10);
     while(ros::ok()){
